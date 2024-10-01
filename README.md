@@ -4,7 +4,7 @@ This Flask web application predicts the number of calories burned during exercis
 
 
 
-![App Demo](./path_to_your_gif.gif)
+![App Demo](./Calorie%20Burn%20Prediction/calorie_prediction_app/ScreenRecording2024-10-02at12.05.00AM-ezgif.com-speed.gif)
 
 ## Features
 
@@ -75,17 +75,3 @@ Feel free to submit pull requests or report issues. Contributions are always wel
 ## License
 
 This project is licensed under the MIT License.
-
-### Adding a GIF to README.md
-
-To showcase the app, create a GIF demo:
-
-1. Use a tool like **LiceCap** or **ScreenToGif** to record your web app's interaction.
-2. Save the GIF in your `Calorie_prediction_app` directory.
-3. Add the GIF to your `README.md` by updating this line:
-
-   ```markdown
-   ![App Demo](./path_to_your_gif.gif)
-   ```
-
-   Replace `path_to_your_gif.gif` with the relative path to the GIF, e.g., `./demo.gif`.
