@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calorie Prediction</title>
+    <style>
+        /* Base styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #74ebd5 0%, #9face6 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: backgroundMove 10s ease-in-out infinite;
+            box-sizing: border-box;
+        }
+
+        /* Background gradient animation */
+        @keyframes backgroundMove {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Main container */
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 450px;
+            transition: transform 0.3s ease-in-out;
+            box-sizing: border-box;
+            overflow-y: auto;
+            max-height: 90vh;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        /* Form styling */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        input {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease-in-out;
+            box-sizing: border-box;
+        }
+
+        /* Specific green and red border colors for real-time validation */
+        input.valid {
+            border-color: green;
+        }
+
+        input.invalid {
+            border-color: red;
+        }
+
+        /* Button with shadow and press animation */
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 12px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        input[type="submit"]:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        input::placeholder {
+            color: #999;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 0.9rem;
+            margin-top: 20px;
+            color: #666;
+        }
+
+        .container:hover {
+            transform: scale(1.02);
+        }
+
+        .flash-messages {
+            color: #ff4d4d;
+            background-color: #ffe6e6;
+            border: 1px solid #ffcccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 500px) {
+            .container {
+                padding: 20px;
+                max-width: 90%;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            input {
+                font-size: 0.9rem;
+                padding: 8px;
+            }
+
+            input[type="submit"] {
+                font-size: 0.9rem;
+                padding: 10px;
+            }
+
+            .flash-messages {
+                font-size: 0.85rem;
+                padding: 8px;
+            }
+
+            .footer {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+
+    <script>
+        // Real-time validation for gender input
+        function validateGender() {
+            const genderInput = document.getElementById("gender");
+            const validGenders = ["male", "female"];
+            const inputValue = genderInput.value.toLowerCase();
+
+            if (validGenders.includes(inputValue)) {
+                genderInput.classList.remove("invalid");
+                genderInput.classList.add("valid");
+            } else {
+                genderInput.classList.remove("valid");
+                genderInput.classList.add("invalid");
+            }
+        }
+
+        // Real-time validation for numeric inputs with a range
+        function validateNumber(inputId, min, max) {
+            const input = document.getElementById(inputId);
+            const value = parseFloat(input.value);
+
+            if (!isNaN(value) && value >= min && value <= max) {
+                input.classList.remove("invalid");
+                input.classList.add("valid");
+            } else {
+                input.classList.remove("valid");
+                input.classList.add("invalid");
+            }
+        }
+
+        // Optional: Prevent form submission if any field is invalid
+        function validateForm(event) {
+            const inputs = document.querySelectorAll("input[required]");
+            let isValid = true;
+
+            inputs.forEach(input => {
+                if (input.classList.contains("invalid") || input.value.trim() === "") {
+                    isValid = false;
+                }
+            });
+
+            if (!isValid) {
+                event.preventDefault();
+                alert("Please correct the highlighted fields before submitting.");
+            }
+        }
+
+        // Attach form validation
+        window.onload = function() {
+            const form = document.querySelector("form");
+            form.addEventListener("submit", validateForm);
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Calorie Prediction</h1>
+
+        <!-- Flash messages to display validation errors -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-messages">
+                    <ul>
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            <!-- Gender Input -->
+            <label for="gender">Gender (male/female):</label>
+            <input type="text" id="gender" name="gender" placeholder="Enter your gender" oninput="validateGender()" value="{{ input_values.gender | default('') }}" required>
+
+            <!-- Age Input -->
+            <label for="age">Age (1-120):</label>
+            <input type="number" id="age" name="age" placeholder="Enter your age" oninput="validateNumber('age', 1, 120)" value="{{ input_values.age | default('') }}" required>
+
+            <!-- Height Input -->
+            <label for="height">Height (50-250 cm):</label>
+            <input type="number" id="height" name="height" placeholder="Enter your height" oninput="validateNumber('height', 50, 250)" value="{{ input_values.height | default('') }}" required>
+
+            <!-- Weight Input -->
+            <label for="weight">Weight (1-300 kg):</label>
+            <input type="number" id="weight" name="weight" placeholder="Enter your weight" oninput="validateNumber('weight', 1, 300)" value="{{ input_values.weight | default('') }}" required>
+
+            <!-- Duration Input -->
+            <label for="duration">Duration (1-300 minutes):</label>
+            <input type="number" id="duration" name="duration" placeholder="Enter exercise duration" oninput="validateNumber('duration', 1, 300)" value="{{ input_values.duration | default('') }}" required>
+
+            <!-- Heart Rate Input -->
+            <label for="heart_rate">Heart Rate (40-200 bpm):</label>
+            <input type="number" id="heart_rate" name="heart_rate" placeholder="Enter your heart rate" oninput="validateNumber('heart_rate', 40, 200)" value="{{ input_values.heart_rate | default('') }}" required>
+
+            <!-- Body Temperature Input -->
+            <label for="body_temp">Body Temperature (35-42°C):</label>
+            <input type="number" step="0.1" id="body_temp" name="body_temp" placeholder="Enter body temperature" oninput="validateNumber('body_temp', 35, 42)" value="{{ input_values.body_temp | default('') }}" required>
+
+            <input type="submit" value="Predict Calories">
+        </form>
+
+        <div class="footer">
+            <p>© 2024 Calorie Prediction</p>
+        </div>
+    </div>
+</body>
+</html>

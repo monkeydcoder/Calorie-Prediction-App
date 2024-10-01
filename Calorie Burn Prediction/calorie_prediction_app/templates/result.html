@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calorie Prediction Result</title>
+    <style>
+        /* General body styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
+            animation: gradientAnimation 15s ease infinite;
+            box-sizing: border-box;
+        }
+
+        /* Gradient background animation */
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Container for the result box */
+        .result-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            animation: popIn 0.5s ease;
+            box-sizing: border-box;
+        }
+
+        /* Pop-in animation */
+        @keyframes popIn {
+            from {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Heading style */
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #4CAF50;
+        }
+
+        /* Prediction result styling */
+        p {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        strong {
+            font-size: 2rem;
+            color: #ff6347; /* Tomato color for the calorie result */
+        }
+
+        /* Button styling */
+        a {
+            text-decoration: none;
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+            display: inline-block;
+        }
+
+        a:hover {
+            background-color: #45a049;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        a:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 500px) {
+            .result-container {
+                padding: 20px;
+                max-width: 90%;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            p {
+                font-size: 1.2rem;
+            }
+
+            strong {
+                font-size: 1.5rem;
+            }
+
+            a {
+                font-size: 1rem;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="result-container">
+        <h1>Calorie Prediction Result</h1>
+        <p>Predicted Calories Burned: <strong>{{ prediction }}</strong></p>
+        <a href="/">Make another prediction</a>
+    </div>
+</body>
+</html>
